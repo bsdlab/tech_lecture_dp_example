@@ -48,6 +48,7 @@ pip install -e .
 python -c "from dareplane_utils.default_server.server import DefaultServer; print('✓ dareplane-utils installed')"
 python -c "import pyglet; print('✓ pyglet installed')"
 python -c "import pylsl; print('✓ pylsl installed')"
+python -c "import pyxdf; print('✓ pyxdf installed')"
 ```
 
 ---
@@ -330,7 +331,7 @@ ls mock_setup/data/
 
 You can visualize the data using the example script: 
 ```bash
-python -m scripts.show_xdf_content ./mock_setup/data/<your_recording_file>.xdf
+python scripts/show_xdf_content.py ./mock_setup/data/<your_recording_file>.xdf
 ```
 
 
