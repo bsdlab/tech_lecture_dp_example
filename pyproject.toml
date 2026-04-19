@@ -15,4 +15,5 @@ dependencies = [
   "pip>=26.0.1",
   "waitress>=3.0.2",
   "dash>=4.1.0",
+  "pyxdf>=1.17.4",
 ]
