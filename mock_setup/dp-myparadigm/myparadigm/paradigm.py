@@ -149,7 +149,10 @@ class Paradigm:
         config = pyglet.gl.Config(double_buffer=True, depth_size=16)
 
         self.window = pyglet.window.Window(
-            fullscreen=True,
+            width=1200,
+            height=800,
+            resizable=True,
+            # fullscreen=True,
             caption="Reaction Time Paradigm",
             config=config,
         )
@@ -249,7 +252,7 @@ class Paradigm:
         pyglet.clock.unschedule(self._timeout)  # no longer check for the timeout
         pyglet.clock.schedule_once(self._start_trial, 1.0)  # start the next trial
 
-    def run(self, n_trials: int | None = None) -> None:
+    def run(self, n_trials: int | None = None) -> int:
         """
         Run the paradigm.
 
@@ -269,6 +272,8 @@ class Paradigm:
         self._send_marker("paradigm_start")
         self._state = "instructions"
         pyglet.app.run()
+
+        return 0  # we will call the run method via the Dareplane wrapper. Such functions should either return int, tuple[threading.Thread, threading.Event], or subprocess.Popen.
 
     def stop(self) -> None:
         """Stop the paradigm."""

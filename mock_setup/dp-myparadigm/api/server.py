@@ -9,9 +9,10 @@ from dareplane_utils.default_server.server import DefaultServer
 from fire import Fire
 
 from myparadigm.paradigm import Paradigm
+from myparadigm.utils.logging import logger
 
 
-def run_paradigm(port: int = 8084, **kwargs) -> None:
+def run_paradigm(port: int = 8084, log_level: str = "INFO", **kwargs) -> None:
     """
     Start the paradigm server.
 
@@ -19,27 +20,31 @@ def run_paradigm(port: int = 8084, **kwargs) -> None:
     ----------
     port : int
         Port for the primary command TCP server.
+    log_level : str
+        Logging level (e.g., "DEBUG", "INFO", "WARNING", "ERROR").
     **kwargs
         Additional arguments passed to Paradigm.
     """
+    logger.setLevel(log_level.upper())
+
     # Create the paradigm instance
     paradigm = Paradigm(**kwargs)
 
     # Define the primary commands (PCOMMs) that this module responds to
     pcomm_map = {
         "RUN": paradigm.run,
-        "STOP": paradigm.stop,
     }
 
     # Create and start the Dareplane server
     server = DefaultServer(
         port=port,
-        pcomm_map=pcomm_map,
+        pcommand_map=pcomm_map,
         name="dp-myparadigm",
     )
 
     # Run the server (blocking)
-    server.run()
+    server.init_server()
+    server.start_listening()
 
 
 if __name__ == "__main__":
