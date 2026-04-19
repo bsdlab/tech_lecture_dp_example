@@ -61,10 +61,10 @@ Dareplane follows a modular architecture where each component runs as an indepen
 │                      dp-control-room                            │
 │                    (Web UI + Orchestration)                     │
 └─────────────────┬───────────────┬───────────────┬───────────────┘
-                  │ TCP           │ TCP           │ TCP
-                  ▼               ▼               ▼
-         ┌────────────┐   ┌────────────┐   ┌────────────┐
-         │dp-myparadigm│   │dp-mockup-  │   │dp-lsl-     │
+                  │ TCP ▲         │ TCP ▲         │ TCP ▲
+                  ▼     │         ▼     │         ▼     │
+         ┌────────────┐ │ ┌────────────┐ │ ┌────────────┐ │
+         │dp-myparadigm│─┘ │dp-mockup-  │─┘ │dp-lsl-     │─┘
          │ (Port 8084)│   │ streamer   │   │ recording  │
          │            │   │ (Port 8083)│   │ (Port 8082)│
          └─────┬──────┘   └─────┬──────┘   └─────┬──────┘
@@ -287,8 +287,20 @@ Key sections:
 
 ```bash
 cd mock_setup/dp-control-room
-./
+./run_mockup_experiment.sh
 ```
+
+Potentially, you need to make the script executable first:
+
+```bash
+chmod +x run_mockup_experiment.sh
+```
+
+Or start using python as the `run_mockup_experiment.sh` is just a convenience wrapper for:
+```bash
+python -m control_room.main --setup_cfg_path="<path-to-your>/dp-control-room/configs/myparadigm_full_setup.toml"
+```
+
 
 ### Using the Control Room
 
@@ -309,39 +321,11 @@ Check the `mock_setup/data/` folder for recorded XDF files:
 ls mock_setup/data/
 ```
 
-You can load and inspect XDF files with `pyxdf`:
-
-```python
-import pyxdf
-data, header = pyxdf.load_xdf('mock_setup/data/sub-P001_ses-S001_run-001_task-paradigm.xdf')
-for stream in data:
-    print(f"Stream: {stream['info']['name'][0]}, samples: {len(stream['time_stamps'])}")
+You can visualize the data using the example script: 
+```bash
+python -m scripts.show_xdf_content ./mock_setup/data/<your_recording_file>.xdf
 ```
 
----
-
-## Part 7: Creating Your Own Module (Exercise)
-
-Now that you understand the architecture, try creating your own module:
-
-1. **Copy the template:**
-   ```bash
-   cp -r mock_setup/dp-myparadigm mock_setup/dp-mymodule
-   ```
-
-2. **Modify the paradigm logic** in `myparadigm/paradigm.py`
-
-3. **Update PCOMMs** in `api/server.py` to expose your new functionality
-
-4. **Add to control room config** in `cvep_speller.toml`:
-   ```toml
-   [python.modules.dp-mymodule]
-       type = 'custom'
-       port = 8085
-       ip = '127.0.0.1'
-   ```
-
-5. **Create macros** to integrate with other modules
 
 ---
 
