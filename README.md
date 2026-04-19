@@ -210,8 +210,9 @@ telnet 127.0.0.1 8084
 
 Try these commands:
 ```
-GET_PCOMMS
+RUN
 RUN|{"n_trials": 3}
+CLOSE
 ```
 
 ##### Testing with Python auxiliary client:
@@ -228,7 +229,10 @@ This demonstrates a core philosophy of Dareplane: **minimal requirements, maximu
 
 ---
 
-## Part 5: Creating a Full Dareplane setup
+## Part 5: Creating a Full Dareplane Setup
+
+#### Prerequisites
+We will record LSL streams using the [`labrecorder`](https://github.com/labstreaminglayer/App-LabRecorder). Make sure it is installed and launch it.
 
 ### 5.1 Download Supporting Modules
 
@@ -268,7 +272,7 @@ Key sections:
 [macros.run_paradigm.cmds]
     com1 = ['dp-lsl-recording', 'UPDATE']
     com2 = ['dp-lsl-recording', 'SELECT_ALL']
-    com3 = ['dp-lsl-recording', 'SET_SAVE_PATH', ...]
+    com3 = ['dp-lsl-recording', 'SET_SAVE_PATH']
     com4 = ['dp-lsl-recording', 'RECORD']
     com5 = ['dp-myparadigm', 'RUN', 'n_trials=n_trials']
 ```
@@ -284,7 +288,7 @@ Key sections:
 
 ## Part 6: Running the Full Setup
 
-1. Ensure that the [`labrecorder`](https://github.com/labstreaminglayer/App-LabRecorder) is running. Currently, the `dp-lsl-recording` only controls the functionality of the `labrecorder`. Spawning it automatically will be implemented in the next version.
+1. Ensure that the [`labrecorder`](https://github.com/labstreaminglayer/App-LabRecorder) is installed and running is running. Currently, the `dp-lsl-recording` only controls the functionality of the `labrecorder`. Spawning it automatically will be implemented in the next version.
 
 2. Execute the `run` script in the `dp-control-room`:
 
