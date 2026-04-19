@@ -74,6 +74,8 @@ Dareplane follows a modular architecture where each component runs as an indepen
              Stream          Stream         LSL streams]
 ```
 
+![Control Room Interaction](assets/control_room_interaction.svg)
+
 ### Key Concepts
 
 | Concept | Description |
@@ -82,6 +84,7 @@ Dareplane follows a modular architecture where each component runs as an indepen
 | **PCOMM** | Primary Command - text-based command sent via TCP (e.g., `RUN`, `STOP`) |
 | **LSL** | Lab Streaming Layer - protocol for streaming time-series data |
 | **Control Room** | Central orchestration module providing a web UI |
+
 
 ---
 
@@ -208,16 +211,19 @@ RUN|{"n_trials": 3}
 
 ##### Testing with Python auxiliary client:
 
-```python
-import socket
-
+```bash
+python -m scripts.telpy 127.0.0.1 8080
 ```
 
 > **Checkpoint ✓** The server should respond with available commands, and `RUN` should start the paradigm window.
 
+**🎉 Congratulations!** You've just created your first standalone Dareplane module! 
+
+This demonstrates a core philosophy of Dareplane: **minimal requirements, maximum freedom**. You implemented the paradigm's core functionality (visual cues, keyboard input, LSL streaming) in whatever way you chose—in this case, using pyglet. Dareplane only requires that you wrap this functionality with a TCP server that responds to primary commands (PCOMMs). This design keeps modules lightweight, language-agnostic, and easy to integrate into larger experimental setups.
+
 ---
 
-## Part 5: Setting Up the Full Dareplane Environment
+## Part 5: Creating a Full Dareplane setup
 
 ### 5.1 Download Supporting Modules
 
@@ -237,29 +243,11 @@ This creates:
 | `dp-lsl-recording` | Records all LSL streams to disk |
 | `dp-myparadigm` | Your paradigm module (already exists) |
 
-### 5.2 Install Each Module
-
-```bash
-# Install control room
-cd mock_setup/dp-control-room
-pip install -e .
-
-# Install LSL recording
-cd ../dp-lsl-recording
-pip install -e .
-
-# Install mockup streamer
-cd ../dp-mockup-streamer
-pip install -e .
-
-# Install your paradigm (if not already)
-cd ../dp-myparadigm
-pip install -e .
-```
+> **Note**: A Dareplane setup is simply a set of modules as folders on your hard drive, making it easy to customize, extend and manage.
 
 ### 5.3 Understand the Control Room Configuration
 
-The setup script generated a config at `mock_setup/dp-control-room/configs/cvep_speller.toml`.
+The setup script generated a config at `mock_setup/dp-control-room/configs/myparadigm_full_setup.toml`.
 
 Key sections:
 
@@ -291,30 +279,13 @@ Key sections:
 
 ## Part 6: Running the Full Setup
 
-You'll need **4 terminal windows** (or use a terminal multiplexer like `tmux`).
+1. Ensure that the [`labrecorder`](https://github.com/labstreaminglayer/App-LabRecorder) is running. Currently, the `dp-lsl-recording` only controls the functionality of the `labrecorder`. Spawning it automatically will be implemented in the next version.
 
-### Terminal 1: Start the Mockup Streamer
-```bash
-cd mock_setup/dp-mockup-streamer
-python -m mockup_streamer.main --pcomm_port=8083
-```
+2. Execute the `run` script in the `dp-control-room`:
 
-### Terminal 2: Start the LSL Recorder
-```bash
-cd mock_setup/dp-lsl-recording
-python -m lsl_recording.main --pcomm_port=8082
-```
-
-### Terminal 3: Start Your Paradigm Module
-```bash
-cd mock_setup/dp-myparadigm
-python -m api.server --pcomm_port=8084
-```
-
-### Terminal 4: Start the Control Room
 ```bash
 cd mock_setup/dp-control-room
-python -m control_room.main --setup_cfg_path=configs/cvep_speller.toml
+./
 ```
 
 ### Using the Control Room
@@ -325,7 +296,8 @@ python -m control_room.main --setup_cfg_path=configs/cvep_speller.toml
    - Start LSL recording
    - Launch the paradigm window
 4. Complete the trials
-5. Click **"STOP PARADIGM"** to stop recording
+5. Stop the recording by clicking the "STOP RECORDING" macro in the control room (if not set to auto-stop after paradigm ends)
+6. Stop the control room and associated modules by interrupting the terminal (Ctrl+C).
 
 ### Verify Recording
 

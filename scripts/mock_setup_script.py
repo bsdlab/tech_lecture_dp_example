@@ -16,7 +16,6 @@ for req in requirements:
         subprocess.check_call([sys.executable, "-m", "pip", "install", req])
 
 from git import Repo
-import toml
 
 # ----------------------------------------------------------------------------
 # Set up
@@ -77,11 +76,6 @@ DATA_DIR = root_dir.joinpath("./data").resolve()
 # ----------------------------------------------------------------------------
 # Create configs
 # ----------------------------------------------------------------------------
-
-#
-# >>> for dp-control-room
-#
-
 control_room_cfg = f"""
 
 [python]
@@ -126,27 +120,6 @@ modules_root = '../'
     com4 = ['dp-lsl-recording', 'RECORD']
     com5 = ['dp-myparadigm', 'RUN', 'n_trials=n_trials']
 
-[macros.stop_paradigm]
-    name = 'STOP PARADIGM'
-    description = 'Stop the paradigm and recording'
-[macros.stop_paradigm.cmds]
-    com1 = ['dp-myparadigm', 'STOP']
-    com2 = ['dp-lsl-recording', 'STOPRECORD']
-
-[macros.run_training]
-    name = 'RUN TRAINING'
-    description = 'Start the recording of training data'
-[macros.run_training.default_json]
-    fname = 'sub-P001_ses-S001_run-001_task-training'
-    data_root = '{str(DATA_DIR.resolve())}'
-    delay_s = 0.5                  # delay inbetween commands -> time for LSL recorder to respond
-[macros.run_training.cmds]
-    # [<target_module>, <PCOMM>, <kwarg_name1 (optional)>, <kwarg_name2 (optional)>]
-    com1 = ['dp-lsl-recording', 'UPDATE']
-    com2 = ['dp-lsl-recording', 'SELECT_ALL']
-    com3 = ['dp-lsl-recording', 'SET_SAVE_PATH', 'fname=fname', 'data_root=data_root']
-    com4 = ['dp-lsl-recording', 'RECORD']
-
 [macros.stop_recording]
     name = 'STOP RECORDING'
     description = 'Stop the recording'
@@ -155,7 +128,7 @@ modules_root = '../'
 """
 
 control_room_cfg_pth = Path(
-    f"./{SETUP_FOLDER_NAME}/dp-control-room/configs/cvep_speller.toml"
+    f"./{SETUP_FOLDER_NAME}/dp-control-room/configs/myparadigm_full_setup.toml"
 )
 with open(control_room_cfg_pth, "w") as f:
     f.write(control_room_cfg)
