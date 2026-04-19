@@ -164,3 +164,7 @@ _site/
 reference/
 objects.json
 uv.lock
+
+# Ignore all folders under mock_setup except dp-myparadigm
+mock_setup/*
+!mock_setup/dp-myparadigm/

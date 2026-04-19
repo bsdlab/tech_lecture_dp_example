@@ -7,7 +7,7 @@ import sys
 # Install requirements
 # ----------------------------------------------------------------------------
 
-requirements = ["GitPython", "toml"]
+requirements = ["GitPython"]
 
 for req in requirements:
     try:
@@ -36,16 +36,7 @@ DATA_STREAM_NAME = "mockup"
 # ----------------------------------------------------------------------------
 
 root_dir = Path(SETUP_FOLDER_NAME)
-try:
-    root_dir.mkdir(exist_ok=False)
-except FileExistsError:
-    print(f"Directory `{root_dir}` already exists. Exiting.")
-    q = input("Do you want to overwrite it? [y/N] ")
-    if q == "y":
-        shutil.rmtree(root_dir)
-        root_dir.mkdir()
-    else:
-        exit(1)
+root_dir.mkdir(exist_ok=True)
 
 # SSH ide via the Repo.clone_from did not work -> use manual subprocess calls
 repos = []
