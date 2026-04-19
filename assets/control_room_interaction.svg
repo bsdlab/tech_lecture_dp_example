@@ -223,6 +223,13 @@
      inkscape:groupmode="layer"
      id="layer1"
      transform="translate(-3.2476264,-1.135916)">
+    <!-- White background -->
+    <rect
+       style="fill:#ffffff;fill-opacity:1"
+       x="-10"
+       y="-10"
+       width="320"
+       height="230" />
     <rect
        style="fill:#0868ac;fill-opacity:1;stroke-width:1.13262;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2.3;paint-order:stroke fill markers"
        id="rect1"

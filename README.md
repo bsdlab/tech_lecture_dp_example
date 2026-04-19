@@ -88,7 +88,7 @@ Dareplane follows a modular architecture where each component runs as an indepen
 
 ---
 
-## Part 3: Building the Paradigm Core Logic
+## Part 3: Building a Simple Paradigm as `How to create a Dareplane module?`
 
 We'll create a simple reaction time paradigm that:
 1. Shows a fixation cross
@@ -144,7 +144,7 @@ python -m myparadigm.paradigm
 
 A window should appear. Wait for the green circle, then press `SPACE`. Press `ESC` to quit early.
 
-> **Checkpoint ✓** You should see a pyglet window cycling through fixation → cue → feedback.
+> **Checkpoint ✓** You should see a pyglet window with instructions. After pressing space it should be cycling through fixation → cue → feedback.
 
 ---
 
@@ -188,6 +188,9 @@ def run_server(
     server.init_server()
     server.start_listening()
 ```
+
+**Key components:**
+- `pcomm_map`: Maps command strings (e.g., `"RUN"`) to functions that execute the paradigm logic. This is how you expose any functionality of your paradigm to be controlled via TCP commands. The server is configured such that any json payload sent after the primary command will be passed as keyword arguments to the corresponding function. For example, sending `RUN|{"n_trials": 5}` will call `paradigm.run(n_trials=5)`.
 
 ### 4.2 Test the Server Locally
 
