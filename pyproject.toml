@@ -1,10 +1,15 @@
 [project]
 name = "dareplane-example"
 version = "0.1.0"
-description = "Add your description here"
+description = "Example Dareplane setup for teaching - visual cue paradigm with keyboard responses"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = [
     "dareplane-utils>=0.0.15",
     "fire>=0.7.0",
+    "pyglet>=2.0.0",
+    "pylsl>=1.16.0",
+    "numpy>=1.24.0",
+    "GitPython>=3.1.0",
+    "toml>=0.10.0",
 ]

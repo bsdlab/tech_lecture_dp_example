@@ -88,6 +88,13 @@ control_room_cfg = f"""
 modules_root = '../'                                                            
 
 
+# -------------------- Paradigm module ---------------------------------------
+[python.modules.dp-myparadigm]
+    type = 'paradigm'
+    port = 8084
+    ip = '127.0.0.1'
+
+
 # -------------------- LSL recording -----------------------------------------
 [python.modules.dp-lsl-recording]                                      
     type = 'recording'
@@ -95,7 +102,36 @@ modules_root = '../'
     ip = '127.0.0.1'
 
 
+# -------------------- Mockup streamer ---------------------------------------
+[python.modules.dp-mockup-streamer]
+    type = 'streamer'
+    port = 8083
+    ip = '127.0.0.1'
+
+
 [macros]
+
+[macros.run_paradigm]
+    name = 'RUN PARADIGM'
+    description = 'Start the visual cue paradigm with recording'
+[macros.run_paradigm.default_json]
+    fname = 'sub-P001_ses-S001_run-001_task-paradigm'
+    data_root = '{str(DATA_DIR.resolve())}'
+    delay_s = 0.5
+    n_trials = 10
+[macros.run_paradigm.cmds]
+    com1 = ['dp-lsl-recording', 'UPDATE']
+    com2 = ['dp-lsl-recording', 'SELECT_ALL']
+    com3 = ['dp-lsl-recording', 'SET_SAVE_PATH', 'fname=fname', 'data_root=data_root']
+    com4 = ['dp-lsl-recording', 'RECORD']
+    com5 = ['dp-myparadigm', 'RUN', 'n_trials=n_trials']
+
+[macros.stop_paradigm]
+    name = 'STOP PARADIGM'
+    description = 'Stop the paradigm and recording'
+[macros.stop_paradigm.cmds]
+    com1 = ['dp-myparadigm', 'STOP']
+    com2 = ['dp-lsl-recording', 'STOPRECORD']
 
 [macros.run_training]
     name = 'RUN TRAINING'
@@ -111,25 +147,11 @@ modules_root = '../'
     com3 = ['dp-lsl-recording', 'SET_SAVE_PATH', 'fname=fname', 'data_root=data_root']
     com4 = ['dp-lsl-recording', 'RECORD']
 
-[macros.stop_streaming]
-    name = 'STOP LSL RECORDING'
+[macros.stop_recording]
+    name = 'STOP RECORDING'
     description = 'Stop the recording'
-[macros.stop_streaming.cmds]
+[macros.stop_recording.cmds]
     com1 = ['dp-lsl-recording', 'STOPRECORD']
-
-[macros.run_online]
-    name = 'RUN ONLINE'
-    description = 'Start the recording of online data'
-[macros.run_online.default_json]
-    fname = 'sub-P001_ses-S001_run-001_task-online'
-    data_root = '{str(DATA_DIR.resolve())}' 
-[macros.run_online.cmds]
-    # [<target_module>, <PCOMM>, <kwarg_name1 (optional)>, <kwarg_name2 (optional)>]
-    com1 = ['dp-lsl-recording', 'UPDATE']
-    com2 = ['dp-lsl-recording', 'SELECT_ALL']
-    com3 = ['dp-lsl-recording', 'SET_SAVE_PATH', 'fname=fname', 'data_root=data_root']
-    com4 = ['dp-lsl-recording', 'RECORD']
-    com5 = ['dp-cvep-decoder', 'DECODE ONLINE']
 """
 
 control_room_cfg_pth = Path(
