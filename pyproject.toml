@@ -1,16 +1,18 @@
 [project]
 name = "dareplane-example"
-version = "0.1.0"
+version = "0.0.1"
 description = "Example Dareplane setup for teaching - visual cue paradigm with keyboard responses"
 readme = "README.md"
-requires-python = ">=3.11"
+requires-python = ">=3.13"
 dependencies = [
-    "dareplane-utils>=0.0.15",
-    "fire>=0.7.0",
-    "pyglet>=2.0.0",
-    "pylsl>=1.16.0",
-    "numpy>=1.24.0",
-    "GitPython>=3.1.0",
-    "toml>=0.10.0",
-    "pip>=24.0",
+  "dareplane-utils>=0.0.21",
+  "fire>=0.7.1",
+  "pyglet>=2.1.14",
+  "pylsl>=1.18.1",
+  "numpy>=2.4.4",
+  "GitPython>=3.1.46",
+  "toml>=0.10.2",
+  "pip>=26.0.1",
+  "waitress>=3.0.2",
+  "dash>=4.1.0",
 ]

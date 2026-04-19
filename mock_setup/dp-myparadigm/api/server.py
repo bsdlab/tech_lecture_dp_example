@@ -12,7 +12,9 @@ from myparadigm.paradigm import Paradigm
 from myparadigm.utils.logging import logger
 
 
-def run_paradigm(port: int = 8084, log_level: str = "INFO", **kwargs) -> None:
+def run_server(
+    ip: str = "localhost", port: int = 8084, log_level: str = "INFO"
+) -> None:
     """
     Start the paradigm server.
 
@@ -28,7 +30,7 @@ def run_paradigm(port: int = 8084, log_level: str = "INFO", **kwargs) -> None:
     logger.setLevel(log_level.upper())
 
     # Create the paradigm instance
-    paradigm = Paradigm(**kwargs)
+    paradigm = Paradigm()
 
     # Define the primary commands (PCOMMs) that this module responds to
     pcomm_map = {
@@ -37,6 +39,7 @@ def run_paradigm(port: int = 8084, log_level: str = "INFO", **kwargs) -> None:
 
     # Create and start the Dareplane server
     server = DefaultServer(
+        ip=ip,
         port=port,
         pcommand_map=pcomm_map,
         name="dp-myparadigm",
@@ -48,4 +51,4 @@ def run_paradigm(port: int = 8084, log_level: str = "INFO", **kwargs) -> None:
 
 
 if __name__ == "__main__":
-    Fire(run_paradigm)
+    Fire(run_server)

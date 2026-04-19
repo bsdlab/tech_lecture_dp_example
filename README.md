@@ -164,7 +164,9 @@ from myparadigm.paradigm import Paradigm
 from myparadigm.utils.logging import logger
 
 
-def run_paradigm(port: int = 8084, log_level: str = "INFO", **kwargs) -> None:
+def run_server(
+    ip: str = "localhost", port: int = 8084, log_level: str = "INFO"
+) -> None:
     logger.setLevel(log_level.upper())
 
     # Create the paradigm instance
