@@ -17,3 +17,10 @@ dependencies = [
   "dash>=4.1.0",
   "pyxdf>=1.17.4",
 ]
+
+[tool.setuptools]
+py-modules = []
+
+[tool.setuptools.packages.find]
+where = ["."]
+exclude = ["assets*", "mock_setup*"]
